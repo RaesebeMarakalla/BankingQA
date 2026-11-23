@@ -109,4 +109,80 @@ public void Withdraw_ValidAmount_DecreasesBalance()
             () => account.Withdraw(-200m));
     }
 
+
+
+    [TestCase(500, 100, 600)]
+    [TestCase(500, 200, 700)]
+    [TestCase(500, 500, 1000)]
+    [TestCase(500, 1000, 1500)]
+    [Test]
+    public void Deposit_ShouldReturnCorrectBalance(
+        decimal initialBalance,
+        decimal depositAmount,
+        decimal expectedBalance)
+    {
+        // Arrange
+        BankAccount account = new BankAccount(initialBalance);
+
+        // Act
+        account.Deposit(depositAmount);
+
+        // Assert
+        Assert.That(account.Balance, Is.EqualTo(expectedBalance));
+    }
+
+
+
+    [TestCase(1000, 100, 900)]
+    [TestCase(1000, 300, 700)]
+    [TestCase(1000, 500, 500)]
+    [TestCase(1000, 1000, 0)]
+    public void Withdraw_ShouldReturnCorrectBalance(
+        decimal initialBalance,
+        decimal withdrawalAmount,
+        decimal expectedBalance)
+    {
+        // Arrange
+        BankAccount account = new BankAccount(initialBalance);
+
+        // Act
+        account.Withdraw(withdrawalAmount);
+
+        // Assert
+        Assert.That(account.Balance, Is.EqualTo(expectedBalance));
+    }
+
+
+    [TestCase(0)]
+    [TestCase(-100)]
+    [TestCase(-500)]
+    public void Withdraw_InvalidAmount_ThrowsException(
+        decimal amount)
+    {
+        // Arrange
+        BankAccount account = new BankAccount(1000m);
+
+        // Act and Assert
+        Assert.Throws<ArgumentException>(
+            () => account.Withdraw(amount));
+    }
+
+  
+    public void Withdraw_BoundaryValues_ReturnsCorrectBalance(
+        decimal initialBalance,
+        decimal withdrawalAmount,
+        decimal expectedBalance)
+    {
+        // Arrange
+        BankAccount account = new BankAccount(initialBalance);
+
+        // Act
+        account.Withdraw(withdrawalAmount);
+
+        // Assert
+        Assert.That(account.Balance, Is.EqualTo(expectedBalance));
+    }
+
+
+
 }
