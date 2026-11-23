@@ -48,4 +48,65 @@ public class BankAccountTests
         Assert.Throws<ArgumentException>(
             () => new BankAccount(-500m));
     }
+
+
+[Test]
+public void Withdraw_ValidAmount_DecreasesBalance()
+{
+    // Arrange
+    BankAccount account = new BankAccount(1000m);
+
+    // Act
+    account.Withdraw(300m);
+
+    // Assert
+    Assert.That(account.Balance, Is.EqualTo(700m));
+}
+
+    [Test]
+    public void Withdraw_ExactBalance_SetsBalanceToZero()
+    {
+        // Arrange
+        BankAccount account = new BankAccount(1000m);
+
+        // Act
+        account.Withdraw(1000m);
+
+        // Assert
+        Assert.That(account.Balance, Is.EqualTo(0m));
+    }
+
+    [Test]
+    public void Withdraw_InsufficientFunds_ThrowsException()
+    {
+        // Arrange
+        BankAccount account = new BankAccount(1000m);
+
+        // Act and Assert
+        Assert.Throws<InvalidOperationException>(
+            () => account.Withdraw(1500m));
+    }
+
+    [Test]
+    public void Withdraw_ZeroAmount_ThrowsException()
+    {
+        // Arrange
+        BankAccount account = new BankAccount(1000m);
+
+        // Act and Assert
+        Assert.Throws<ArgumentException>(
+            () => account.Withdraw(0m));
+    }
+
+    [Test]
+    public void Withdraw_NegativeAmount_ThrowsException()
+    {
+        // Arrange
+        BankAccount account = new BankAccount(1000m);
+
+        // Act and Assert
+        Assert.Throws<ArgumentException>(
+            () => account.Withdraw(-200m));
+    }
+
 }

@@ -26,4 +26,23 @@ public class BankAccount
 
         Balance += amount;
     }
+
+
+    public void Withdraw(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException(
+                "Withdrawal amount must be positive.");
+        }
+
+        if (amount > Balance)
+        {
+            throw new InvalidOperationException(
+                "Insufficient funds.");
+        }
+
+        Balance -= amount;
+    }
+
 }
