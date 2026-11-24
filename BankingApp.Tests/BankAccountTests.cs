@@ -1,4 +1,4 @@
-
+using System.Collections.Generic;
 using NUnit.Framework;
 using BankingApp;
 
@@ -132,11 +132,16 @@ public void Withdraw_ValidAmount_DecreasesBalance()
     }
 
 
-
+    private static IEnumerable<TestCaseData> BoundaryWithdrawalCases()
+    {
+        yield return new TestCaseData(1000m, 999.99m, 0.01m);
+        yield return new TestCaseData(1000m, 1000m, 0m);
+    }
     [TestCase(1000, 100, 900)]
     [TestCase(1000, 300, 700)]
     [TestCase(1000, 500, 500)]
     [TestCase(1000, 1000, 0)]
+    [TestCaseSource(nameof(BoundaryWithdrawalCases))]
     public void Withdraw_ShouldReturnCorrectBalance(
         decimal initialBalance,
         decimal withdrawalAmount,
